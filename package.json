@@ -14,8 +14,16 @@
   },
   "types": "dist/index",
   "typings": "dist/index",
-  "author": "",
-  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/oplog/resource-redux.git"
+  },
+  "author": "Oplog",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/oplog/resource-redux/issues"
+  },
+  "homepage": "https://github.com/oplog/resource-redux#readme",
   "devDependencies": {
     "@types/jest": "^23.3.5",
     "jest": "^23.6.0",
