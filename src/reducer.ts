@@ -1,0 +1,68 @@
+import {
+    ResourceAction,
+    ResourceFailed,
+    ResourceSucceeded,
+} from "./actions";
+
+import {
+    RESOURCE_FAILED,
+    RESOURCE_INIT,
+    RESOURCE_REQUESTED,
+    RESOURCE_SUCCEEDED,
+} from "./constants";
+import { ResourceStoreState } from "./types";
+
+export function resourceReducer(
+    state: ResourceStoreState,
+    action: ResourceAction,
+): ResourceStoreState {
+
+    if (action === undefined || action.payload === undefined || action.payload.resourceType === undefined) {
+        return state;
+    }
+
+    const resourceType = action.payload.resourceType;
+    switch (action.type) {
+        case RESOURCE_REQUESTED:
+            return {
+                ...state,
+                [resourceType]: {
+                    isBusy: true,
+                    error: undefined,
+                    data: undefined,
+                },
+            };
+        case RESOURCE_FAILED:
+            const error = (action as ResourceFailed).payload.error;
+            return {
+                ...state,
+                [resourceType]: {
+                    isBusy: false,
+                    error,
+                    data: state[resourceType].data,
+                },
+            };
+        case RESOURCE_SUCCEEDED:
+            const data = (action as ResourceSucceeded).payload.data;
+            return {
+                ...state,
+                [resourceType]: {
+                    isBusy: false,
+                    error: undefined,
+                    data,
+                },
+            };
+        case RESOURCE_INIT: {
+            return {
+                ...state,
+                [resourceType]: {
+                    isBusy: false,
+                    data: undefined,
+                    error: undefined,
+                },
+            };
+        }
+        default:
+            return state;
+    }
+}
