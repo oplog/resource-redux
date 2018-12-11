@@ -43,7 +43,7 @@ export interface StoreState {
 }
 ```
 
-####Add resource types for a model definition;
+#### Add resource types for a model definition;
 ```ts
 export enum ResourceType {
     CreateUser = "createUser" // Here, string enums are required
@@ -51,7 +51,7 @@ export enum ResourceType {
 }
 ```
 
-####Add initial states of your resources;
+#### Add initial states of your resources;
 
 ```ts
 import { initialResourceState } from "resource-redux";
@@ -65,7 +65,7 @@ export const initialState = {
 }
 ```
 
-####Create a http api map and configure your redux saga middleware
+#### Create a http api map and configure your redux saga middleware
 
 Http api map is a dictionary which has the resource type as keys and http call functions as the value;
 ```ts
@@ -94,7 +94,7 @@ export const resources = resourceStore({
 sagaMiddleware.run(resources.resourceSaga); // This is required for saga to catch your requested actions
 ```
 
-####Mapping props to store & Dispatching actions in containers;
+#### Mapping props to store & Dispatching actions in containers;
 ```ts
 import { resourceActions, resourceSelectors } from "resource-redux";
 
@@ -109,7 +109,7 @@ function mapDispatchToProps(dispatch: Dispatch<resourceActions.ResourceAction>) 
         onUserSubmit: () => {
             dispatch(
                 resourceActions.resourceRequested(ResourceType.CreateUser, {
-                    customerFormModel
+                    userFormModel // These parameters are mapped into post body parameters defined in http request api map's createUser() function
                 })
             );
         }
