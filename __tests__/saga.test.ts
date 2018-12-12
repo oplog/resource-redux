@@ -4,7 +4,7 @@ import {
   RESOURCE_REQUESTED,
   resourceActions,
   resourceStore,
-  ResourceStoreOptions
+  ResourceStoreOptions,
 } from "../src";
 
 describe("Sagas -> resource", () => {
@@ -24,50 +24,56 @@ describe("Sagas -> resource", () => {
   const options: ResourceStoreOptions = {
     httpRequestMap: {
       [resourceType]: requestFunc,
-      [failedResourceType]: failRequest
-    }
+      [failedResourceType]: failRequest,
+    },
   };
   const resourceSaga = resourceStore(options);
 
   describe("requestResource", () => {
     it("should dispatch succeed action", () => {
       const gen = cloneableGenerator(resourceSaga.requestResource)(
-        resourceActions.resourceRequested(resourceType, params)
+        resourceActions.resourceRequested(resourceType, params),
       );
 
       expect(gen.next().value).toEqual(
-        call(resourceSaga.requestHttpResource, resourceType, params)
+        call(resourceSaga.requestHttpResource, resourceType, params),
       );
 
       expect(gen.next(sampleData).value).toEqual(
-        put(resourceActions.resourceSucceeded(resourceType, sampleData))
+        put(resourceActions.resourceSucceeded(resourceType, sampleData)),
       );
     });
 
     it("should give error when invalid", () => {
       const gen = cloneableGenerator(resourceSaga.requestResource)(
-        resourceActions.resourceRequested(failedResourceType, params)
+        resourceActions.resourceRequested(failedResourceType, params),
       );
 
       expect(gen.next().value).toEqual(
-        call(resourceSaga.requestHttpResource, failedResourceType, params)
+        call(resourceSaga.requestHttpResource, failedResourceType, params),
       );
 
-      expect(gen.throw(new Error(error)).value).toEqual(
-        put(
-          resourceActions.resourceFailed(failedResourceType, new Error(error))
-        )
-      );
+      expect(gen).toBeTruthy();
+      expect(gen.throw).toBeTruthy();
+
+      if (gen !== undefined && gen.throw !== undefined) {
+        expect(gen.throw(new Error(error)).value).toEqual(
+          put(
+            resourceActions.resourceFailed(failedResourceType, new Error(error)),
+          ),
+        );
+      }
+
     });
 
     it("should throw error when request map is not defined", () => {
       const invalidResourceType = "invalidResourceType";
       const gen = cloneableGenerator(resourceSaga.requestResource)(
-        resourceActions.resourceRequested(invalidResourceType, params)
+        resourceActions.resourceRequested(invalidResourceType, params),
       );
 
       expect(gen.next().value).toEqual(
-        call(resourceSaga.requestHttpResource, invalidResourceType, params)
+        call(resourceSaga.requestHttpResource, invalidResourceType, params),
       );
 
       expect(() => {
@@ -81,7 +87,7 @@ describe("Sagas -> resource", () => {
       const gen = cloneableGenerator(resourceSaga.resourceSaga)();
 
       expect(gen.next().value).toEqual(
-        takeEvery(RESOURCE_REQUESTED, resourceSaga.requestResource)
+        takeEvery(RESOURCE_REQUESTED, resourceSaga.requestResource),
       );
     });
   });
