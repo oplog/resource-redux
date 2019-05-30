@@ -1,10 +1,4 @@
-import {
-  RESOURCE_FAILED,
-  RESOURCE_INIT,
-  RESOURCE_REQUESTED,
-  RESOURCE_SUCCEEDED,
-  resourceActions,
-} from "../src";
+import { resourceActions, RESOURCE_FAILED, RESOURCE_INIT, RESOURCE_REQUESTED, RESOURCE_SUCCEEDED } from "../src";
 
 describe("Resource Action Generators", () => {
 
@@ -41,7 +35,7 @@ describe("Resource Action Generators", () => {
   });
 
   it("should generate resource failed action", () => {
-    const error = new Error("error");
+    const error = { message: "sample error", code: 0 };
     const action = resourceActions.resourceFailed(resourceType, error);
     expect(action).toEqual({
       type: RESOURCE_FAILED,

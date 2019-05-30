@@ -1,15 +1,5 @@
-import {
-    ResourceAction,
-    ResourceFailed,
-    ResourceSucceeded,
-} from "./actions";
-
-import {
-    RESOURCE_FAILED,
-    RESOURCE_INIT,
-    RESOURCE_REQUESTED,
-    RESOURCE_SUCCEEDED,
-} from "./constants";
+import { ResourceAction, ResourceFailed, ResourceSucceeded } from "./actions";
+import { RESOURCE_FAILED, RESOURCE_INIT, RESOURCE_REQUESTED, RESOURCE_SUCCEEDED } from "./constants";
 import { ResourceStoreState } from "./types";
 
 export function resourceReducer(

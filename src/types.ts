@@ -1,5 +1,5 @@
 export interface ResourceStoreOptions {
-    httpRequestMap: { [key: string]: (params: RequestParams) => void };
+  httpRequestMap: { [key: string]: (params: RequestParams) => void };
 }
 
 export interface RequestParams {
@@ -10,6 +10,12 @@ export type ResourceStoreState = ({ [key: string]: Resource<any> });
 
 export interface Resource<T> {
   data?: T;
-  error?: Error;
+  error?: any;
   isBusy: boolean;
+}
+
+interface Errors {
+  property: string;
+  message: string;
+  errorCode: string;
 }
