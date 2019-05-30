@@ -1,26 +1,79 @@
 import { ResourceType } from "./actions";
 import { ResourceStoreState } from "./types";
 
-export function getData(resources: ResourceStoreState, resourceType: ResourceType) {
+export function getResource(resources: ResourceStoreState, resourceType: ResourceType) {
     if (resources && resources[resourceType]) {
-        return resources[resourceType].data;
+        return resources[resourceType];
     }
 
     return undefined;
+}
+
+export function getData(resources: ResourceStoreState, resourceType: ResourceType) {
+    const resource = getResource(resources, resourceType);
+    if (resource && resource.data) {
+        return resource.data;
+    }
+
+    return undefined;
+}
+
+export function hasData(resources: ResourceStoreState, resourceType: ResourceType) {
+    const resource = getResource(resources, resourceType);
+    if (resource && resource.data) {
+        return resource.data !== undefined;
+    }
+
+    return false;
 }
 
 export function isBusy(resources: ResourceStoreState, resourceType: ResourceType) {
-    if (resources && resources[resourceType]) {
-        return resources[resourceType].isBusy;
+    const resource = getResource(resources, resourceType);
+    if (resource && resource.isBusy) {
+        return resource.isBusy;
+    }
+
+    return false;
+}
+
+export function getError(resources: ResourceStoreState, resourceType: ResourceType): any {
+    const resource = getResource(resources, resourceType);
+    if (resource && resource.error) {
+        return resource.error;
     }
 
     return undefined;
 }
 
-export function getError(resources: ResourceStoreState, resourceType: ResourceType) {
-    if (resources && resources[resourceType]) {
-        return resources[resourceType].error;
+export function hasError(resources: ResourceStoreState, resourceType: ResourceType) {
+    const resource = getResource(resources, resourceType);
+    if (resource && resource.error) {
+        return resource.error !== undefined;
     }
 
-    return undefined;
+    return false;
+}
+
+export function isComplete(resources: ResourceStoreState, resourceType: ResourceType) {
+    return isSuccessComplete(resources, resourceType) || isErrorComplete(resources, resourceType);
+}
+
+export function isSuccessComplete(resources: ResourceStoreState, resourceType: ResourceType) {
+    const resource = getResource(resources, resourceType);
+    if (resource &&
+        getData(resources, resourceType) !== undefined &&
+        !isBusy(resources, resourceType) &&
+        !hasError(resources, resourceType)
+    ) {
+        return true;
+    }
+    return false;
+}
+
+export function isErrorComplete(resources: ResourceStoreState, resourceType: ResourceType) {
+    const resource = getResource(resources, resourceType);
+    if (resource && !isBusy(resources, resourceType) && hasError(resources, resourceType)) {
+        return true;
+    }
+    return false;
 }

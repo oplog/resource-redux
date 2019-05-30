@@ -1,25 +1,20 @@
 import { call, put, takeEvery } from "redux-saga/effects";
 import { cloneableGenerator } from "redux-saga/utils";
-import {
-  RESOURCE_REQUESTED,
-  resourceActions,
-  resourceStore,
-  ResourceStoreOptions,
-} from "../src";
+import { resourceActions, resourceStore, ResourceStoreOptions, RESOURCE_REQUESTED } from "../src";
 
 describe("Sagas -> resource", () => {
   const resourceType = "sampleResourceType";
   const failedResourceType = "sampleFailResourceType";
   const sampleData = { data: "sampleData" };
   const params = { id: "sampleId" };
-  const error = "sample error";
+  const error: any = { message: "test", code: 0 };
   const requestFunc = jest.fn(() => {
     return new Promise((resolve, reject) => {
       resolve(sampleData);
     });
   });
   const failRequest = jest.fn(() => {
-    throw new Error(error);
+    throw error;
   });
   const options: ResourceStoreOptions = {
     httpRequestMap: {
@@ -27,16 +22,22 @@ describe("Sagas -> resource", () => {
       [failedResourceType]: failRequest,
     },
   };
-  const resourceSaga = resourceStore(options);
+  const resStore = resourceStore(options);
+
+  it("resourceStoreOptions", () => {
+    expect(resStore.requestHttpResource).toBeTruthy();
+    expect(resStore.requestResource).toBeTruthy();
+    expect(resStore.resourceSaga).toBeTruthy();
+  });
 
   describe("requestResource", () => {
     it("should dispatch succeed action", () => {
-      const gen = cloneableGenerator(resourceSaga.requestResource)(
+      const gen = cloneableGenerator(resStore.requestResource)(
         resourceActions.resourceRequested(resourceType, params),
       );
 
       expect(gen.next().value).toEqual(
-        call(resourceSaga.requestHttpResource, resourceType, params),
+        call(resStore.requestHttpResource, resourceType, params),
       );
 
       expect(gen.next(sampleData).value).toEqual(
@@ -45,22 +46,27 @@ describe("Sagas -> resource", () => {
     });
 
     it("should give error when invalid", () => {
-      const gen = cloneableGenerator(resourceSaga.requestResource)(
+      const gen = cloneableGenerator(resStore.requestResource)(
         resourceActions.resourceRequested(failedResourceType, params),
       );
 
       expect(gen.next().value).toEqual(
-        call(resourceSaga.requestHttpResource, failedResourceType, params),
+        call(resStore.requestHttpResource, failedResourceType, params),
       );
 
       expect(gen).toBeTruthy();
       expect(gen.throw).toBeTruthy();
 
+      const err = {
+        json: () => {
+          return { error };
+        },
+        error: { ...error },
+      };
+
       if (gen !== undefined && gen.throw !== undefined) {
-        expect(gen.throw(new Error(error)).value).toEqual(
-          put(
-            resourceActions.resourceFailed(failedResourceType, new Error(error)),
-          ),
+        expect(gen.throw(err).value).toEqual(
+          { error },
         );
       }
 
@@ -68,26 +74,26 @@ describe("Sagas -> resource", () => {
 
     it("should throw error when request map is not defined", () => {
       const invalidResourceType = "invalidResourceType";
-      const gen = cloneableGenerator(resourceSaga.requestResource)(
+      const gen = cloneableGenerator(resStore.requestResource)(
         resourceActions.resourceRequested(invalidResourceType, params),
       );
 
       expect(gen.next().value).toEqual(
-        call(resourceSaga.requestHttpResource, invalidResourceType, params),
+        call(resStore.requestHttpResource, invalidResourceType, params),
       );
 
       expect(() => {
-        gen.next(resourceSaga.requestHttpResource(invalidResourceType, params));
+        gen.next(resStore.requestHttpResource(invalidResourceType, params));
       }).toThrow();
     });
   });
 
   describe("resourceSaga", () => {
     it("should take actions", () => {
-      const gen = cloneableGenerator(resourceSaga.resourceSaga)();
+      const gen = cloneableGenerator(resStore.resourceSaga)();
 
       expect(gen.next().value).toEqual(
-        takeEvery(RESOURCE_REQUESTED, resourceSaga.requestResource),
+        takeEvery(RESOURCE_REQUESTED, resStore.requestResource),
       );
     });
   });

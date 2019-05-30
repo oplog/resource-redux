@@ -1,9 +1,4 @@
-import {
-    RESOURCE_FAILED,
-    RESOURCE_INIT,
-    RESOURCE_REQUESTED,
-    RESOURCE_SUCCEEDED,
-} from "./constants";
+import { RESOURCE_FAILED, RESOURCE_INIT, RESOURCE_REQUESTED, RESOURCE_SUCCEEDED } from "./constants";
 
 export type ResourceType = string;
 
@@ -28,7 +23,7 @@ export interface ResourceFailed {
     type: RESOURCE_FAILED;
     payload: {
         resourceType: ResourceType;
-        error: Error;
+        error: any;
     };
 }
 
@@ -61,7 +56,7 @@ export function resourceSucceeded(resourceType: ResourceType, data: any): Resour
     };
 }
 
-export function resourceFailed(resourceType: ResourceType, error: Error): ResourceFailed {
+export function resourceFailed(resourceType: ResourceType, error: any): ResourceFailed {
     return {
         type: RESOURCE_FAILED,
         payload: {
