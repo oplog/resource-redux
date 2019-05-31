@@ -1,0 +1,11 @@
+import { ResourceType } from "./actions";
+import { ResourceStoreState } from "./types";
+export declare function getResource(resources: ResourceStoreState, resourceType: ResourceType): import("./types").Resource<any> | undefined;
+export declare function getData(resources: ResourceStoreState, resourceType: ResourceType): any;
+export declare function hasData(resources: ResourceStoreState, resourceType: ResourceType): boolean;
+export declare function isBusy(resources: ResourceStoreState, resourceType: ResourceType): boolean;
+export declare function getError(resources: ResourceStoreState, resourceType: ResourceType): any;
+export declare function hasError(resources: ResourceStoreState, resourceType: ResourceType): boolean;
+export declare function isComplete(resources: ResourceStoreState, resourceType: ResourceType): boolean;
+export declare function isSuccessComplete(resources: ResourceStoreState, resourceType: ResourceType): boolean;
+export declare function isErrorComplete(resources: ResourceStoreState, resourceType: ResourceType): boolean;
