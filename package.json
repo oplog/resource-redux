@@ -1,8 +1,10 @@
 {
   "name": "@oplog/resource-redux",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "generic http resource store for redux",
   "main": "dist/main",
+  "types": "dist/index",
+  "typings": "dist/index",
   "scripts": {
     "prebuild": "rimraf ./dist",
     "build": "webpack --config webpack.config.js --mode production",
@@ -10,15 +12,13 @@
     "watch": "npm run build:dev -- --watch",
     "test": "jest --watch",
     "test:coverage": "jest --coverage",
-    "prePublishOnly": "npm run build"
+    "prepublish": "npm run build"
   },
-  "types": "dist/index",
-  "typings": "dist/index",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/oplog/resource-redux.git"
   },
-  "author": "OPLOG Development Team <info@oplog.com.tr”> (https://oplog.com.tr)",
+  "author": "Team OPLOG <info@oplog.com.tr”> (https://oplog.com.tr)",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/oplog/resource-redux/issues"

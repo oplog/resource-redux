@@ -13,9 +13,3 @@ export interface Resource<T> {
   error?: any;
   isBusy: boolean;
 }
-
-interface Errors {
-  property: string;
-  message: string;
-  errorCode: string;
-}

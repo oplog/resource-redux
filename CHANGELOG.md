@@ -1,19 +1,10 @@
 # Change Log
 
-## [Unreleased]
-### Added
-- 
-
-## [0.1.0] - 2018-12-10
-### Added
-- Inital Version
-
-### Changed
-- 
+## [0.2.1] - 2019-05-31
 ### Removed
-- 
-### Fixed
-- 
+- error type removed
+### Changed
+-  package.json info changed
 
 ## [0.2.0] - 2019-05-30
 ### Added
@@ -24,8 +15,10 @@
 - isComplete selector is added 
 - isSuccessComplete selector is added 
 - isErrorComplete selector is added 
-
 ### Changed
 -  Error prop type changed from "Error" to "any"
 ### Fixed
 - resourceFailed error is handled
+
+## [0.1.0] - 2018-12-10
+- Inital Version
