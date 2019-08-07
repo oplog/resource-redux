@@ -12,4 +12,5 @@ export interface Resource<T> {
   data?: T;
   error?: any;
   isBusy: boolean;
+  isSuccess:boolean;
 }

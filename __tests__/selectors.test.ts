@@ -7,24 +7,30 @@ describe("Resource Selectors", () => {
   const resources: { [key: string]: Resource<any> } = {
     nonBusyResource: {
       isBusy: false,
+      isSuccess: false
     },
     busyResource: {
       isBusy: true,
+      isSuccess: false
     },
     errorResource: {
       error,
       isBusy: false,
+      isSuccess: false
     },
     dataResource: {
       isBusy: false,
       data: "sampleData",
+      isSuccess: true
     },
     completeErrorResource: {
       isBusy: false,
+      isSuccess: true,
       error,
     },
     completeDataResource: {
       isBusy: false,
+      isSuccess: true,
       data: "sampleData",
     },
   };
