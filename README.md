@@ -18,6 +18,7 @@ export interface Resource<T> {
     data?: T; // The data that is returned from the http call
     error?: Error; // The error (non HTTP 200) body that is returned from the http call
     isBusy: boolean; // Represents the request continuity
+    isSuccess: boolean; // Represents the request is successfully returned
 }
 ```
 
