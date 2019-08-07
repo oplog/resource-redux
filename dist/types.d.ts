@@ -12,5 +12,6 @@ export declare type ResourceStoreState = ({
 export interface Resource<T> {
     data?: T;
     error?: any;
+    isSuccess?: boolean;
     isBusy: boolean;
 }

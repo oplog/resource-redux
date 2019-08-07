@@ -60,12 +60,8 @@ export function isComplete(resources: ResourceStoreState, resourceType: Resource
 
 export function isSuccessComplete(resources: ResourceStoreState, resourceType: ResourceType) {
     const resource = getResource(resources, resourceType);
-    if (resource &&
-        getData(resources, resourceType) !== undefined &&
-        !isBusy(resources, resourceType) &&
-        !hasError(resources, resourceType)
-    ) {
-        return true;
+    if (resource) {
+        return !!resource.isSuccess;
     }
     return false;
 }
