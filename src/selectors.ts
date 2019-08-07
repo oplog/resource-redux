@@ -61,7 +61,7 @@ export function isComplete(resources: ResourceStoreState, resourceType: Resource
 export function isSuccessComplete(resources: ResourceStoreState, resourceType: ResourceType) {
     const resource = getResource(resources, resourceType);
     if (resource) {
-        return resource.isSuccess;
+        return !!resource.isSuccess;
     }
     return false;
 }

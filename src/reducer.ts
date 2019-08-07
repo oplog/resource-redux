@@ -18,7 +18,7 @@ export function resourceReducer(
                 ...state,
                 [resourceType]: {
                     isBusy: true,
-                    isSuccess: false,
+                    isSuccess: undefined,
                     error: undefined,
                     data: undefined,
                 },
@@ -50,7 +50,7 @@ export function resourceReducer(
                 ...state,
                 [resourceType]: {
                     isBusy: false,
-                    isSuccess: false,
+                    isSuccess: undefined,
                     data: undefined,
                     error: undefined,
                 },

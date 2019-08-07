@@ -9,7 +9,7 @@ describe("Resource Reducer", () => {
       isBusy: false,
       error: undefined,
       data: undefined,
-      isSuccess: false
+      isSuccess: undefined
     },
   };
 
@@ -19,7 +19,7 @@ describe("Resource Reducer", () => {
       isBusy: false,
       error: undefined,
       data: undefined,
-      isSuccess: false
+      isSuccess: undefined
     });
   });
 
@@ -27,7 +27,7 @@ describe("Resource Reducer", () => {
     const action = resourceActions.resourceRequested(resourceType, { id: "sampleUserId" });
     const state = resourceReducer(initialState, action);
     expect(state[resourceType]).toEqual({
-      isSuccess: false,
+      isSuccess: undefined,
       isBusy: true
     });
   });
@@ -64,7 +64,7 @@ describe("Resource Reducer", () => {
       isBusy: false,
       data: undefined,
       error: undefined,
-      isSuccess: false
+      isSuccess: undefined
     });
   });
 
