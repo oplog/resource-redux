@@ -34,8 +34,8 @@ export function resourceStore(options: ResourceStoreOptions) {
       console.log({ e, action });
       let err = { message: "Unknown Error", code: 0 };
       try {
-        const json = (yield e.json());
-        err = json.error;
+        const json = (yield e);
+        err = json;
       } catch (jsonError) {
         err = jsonError;
       } finally {
