@@ -25,7 +25,6 @@ export function resourceReducer(
             };
         case RESOURCE_FAILED:
             const error = (action as ResourceFailed).payload.error;
-            console.log(action);
             return {
                 ...state,
                 [resourceType]: {
