@@ -1,5 +1,11 @@
 # Change Log
 
+## [0.2.4] - 2021-08-18
+
+### Changed
+
+- Stored error value has been changed.
+
 ## [0.2.3] - 2020-02-12
 
 ### Changed
