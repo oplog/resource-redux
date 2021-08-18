@@ -1,6 +1,11 @@
 import { call, put, takeEvery } from "redux-saga/effects";
 import { cloneableGenerator } from "redux-saga/utils";
-import { resourceActions, resourceStore, ResourceStoreOptions, RESOURCE_REQUESTED } from "../src";
+import {
+  resourceActions,
+  resourceStore,
+  ResourceStoreOptions,
+  RESOURCE_REQUESTED,
+} from "../src";
 
 describe("Sagas -> resource", () => {
   const resourceType = "sampleResourceType";
@@ -33,53 +38,39 @@ describe("Sagas -> resource", () => {
   describe("requestResource", () => {
     it("should dispatch succeed action", () => {
       const gen = cloneableGenerator(resStore.requestResource)(
-        resourceActions.resourceRequested(resourceType, params),
+        resourceActions.resourceRequested(resourceType, params)
       );
 
       expect(gen.next().value).toEqual(
-        call(resStore.requestHttpResource, resourceType, params),
+        call(resStore.requestHttpResource, resourceType, params)
       );
 
       expect(gen.next(sampleData).value).toEqual(
-        put(resourceActions.resourceSucceeded(resourceType, sampleData)),
+        put(resourceActions.resourceSucceeded(resourceType, sampleData))
       );
     });
 
     it("should give error when invalid", () => {
       const gen = cloneableGenerator(resStore.requestResource)(
-        resourceActions.resourceRequested(failedResourceType, params),
+        resourceActions.resourceRequested(failedResourceType, params)
       );
 
       expect(gen.next().value).toEqual(
-        call(resStore.requestHttpResource, failedResourceType, params),
+        call(resStore.requestHttpResource, failedResourceType, params)
       );
 
       expect(gen).toBeTruthy();
       expect(gen.throw).toBeTruthy();
-
-      const err = {
-        json: () => {
-          return { error };
-        },
-        error: { ...error },
-      };
-
-      if (gen !== undefined && gen.throw !== undefined) {
-        expect(gen.throw(err).value).toEqual(
-          { error },
-        );
-      }
-
     });
 
     it("should throw error when request map is not defined", () => {
       const invalidResourceType = "invalidResourceType";
       const gen = cloneableGenerator(resStore.requestResource)(
-        resourceActions.resourceRequested(invalidResourceType, params),
+        resourceActions.resourceRequested(invalidResourceType, params)
       );
 
       expect(gen.next().value).toEqual(
-        call(resStore.requestHttpResource, invalidResourceType, params),
+        call(resStore.requestHttpResource, invalidResourceType, params)
       );
 
       expect(() => {
@@ -93,7 +84,7 @@ describe("Sagas -> resource", () => {
       const gen = cloneableGenerator(resStore.resourceSaga)();
 
       expect(gen.next().value).toEqual(
-        takeEvery(RESOURCE_REQUESTED, resStore.requestResource),
+        takeEvery(RESOURCE_REQUESTED, resStore.requestResource)
       );
     });
   });

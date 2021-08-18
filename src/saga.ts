@@ -1,5 +1,10 @@
 import { call, put, takeEvery } from "redux-saga/effects";
-import { resourceFailed, ResourceRequested, resourceSucceeded, ResourceType } from "./actions";
+import {
+  resourceFailed,
+  ResourceRequested,
+  resourceSucceeded,
+  ResourceType,
+} from "./actions";
 import { RESOURCE_REQUESTED } from "./constants";
 import { RequestParams, ResourceStoreOptions } from "./types";
 
@@ -34,12 +39,17 @@ export function resourceStore(options: ResourceStoreOptions) {
       console.log({ e, action });
       let err = { message: "Unknown Error", code: 0 };
       try {
-        const json = (yield e);
+        const json = yield e;
         err = json;
       } catch (jsonError) {
         err = jsonError;
       } finally {
-        yield put(resourceFailed(action.payload.resourceType, err));
+        yield put(
+          resourceFailed(
+            action.payload.resourceType,
+            (err as any).response.data.error,
+          ),
+        );
       }
     }
   };
