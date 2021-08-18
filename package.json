@@ -1,6 +1,6 @@
 {
   "name": "@oplog/resource-redux",
-  "version": "0.2.4",
+  "version": "0.2.6",
   "description": "generic http resource store for redux",
   "main": "dist/main",
   "types": "dist/index",
