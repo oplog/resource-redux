@@ -107,7 +107,7 @@ function mapStateToProps({resources}: StoreState) {
 
 function mapDispatchToProps(dispatch: Dispatch<resourceActions.ResourceAction>) {
     return {
-        onUserSubmit: () => {
+        onUserSubmit: (userFormModel) => {
             dispatch(
                 resourceActions.resourceRequested(ResourceType.CreateUser, {
                     userFormModel // These parameters are mapped into post body parameters defined in http request api map's createUser() function
